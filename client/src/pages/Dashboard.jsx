@@ -41,9 +41,12 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.get("http://localhost:5000/api/links", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        "https://smart-link-saver.onrender.com/api/links",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       setLinks(res.data);
     } catch {
@@ -79,7 +82,7 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:5000/api/links",
+        "https://smart-link-saver.onrender.com/api/links",
         { title, url, note },
         { headers: { Authorization: `Bearer ${token}` } },
       );
@@ -103,9 +106,12 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete(`http://localhost:5000/api/links/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://smart-link-saver.onrender.com/api/links/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       toast.success("Deleted");
       fetchLinks();
@@ -128,7 +134,7 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        `http://localhost:5000/api/links/${currentId}`,
+        `https://smart-link-saver.onrender.com/api/links/${currentId}`,
         { title: editTitle, note: editNote },
         { headers: { Authorization: `Bearer ${token}` } },
       );

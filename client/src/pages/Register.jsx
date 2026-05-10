@@ -25,11 +25,14 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        name,
-        email,
-        password,
-      });
+      await axios.post(
+        "https://smart-link-saver.onrender.com/api/auth/register",
+        {
+          name,
+          email,
+          password,
+        },
+      );
 
       toast.success("Account created!");
 
