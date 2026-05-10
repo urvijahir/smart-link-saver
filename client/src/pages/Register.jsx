@@ -3,46 +3,69 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    //validation
+    //Validation
     if (!email || !password) {
-      toast.error("All fields required");
+      toast.error("All fields are required");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
         email,
         password,
       });
 
-      localStorage.setItem("token", res.data.token);
-      toast.success("Login successful");
+      toast.success("Account created!");
 
       // Clear inputs
+      setName("");
       setEmail("");
       setPassword("");
 
-      // Redirect
-      navigate("/dashboard");
+      // redirect to login
+      navigate("/");
     } catch {
-      toast.error("Invalid credentials");
+      toast.error("Registration failed!");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
       <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
 
-        <form onSubmit={handleLogin} className="space-y-3">
+        <form
+          onSubmit={handleRegister}
+          autoComplete="off"
+          className="space-y-3"
+        >
+          {/* Name */}
+          <input
+            type="text"
+            placeholder="Name"
+            autoComplete="off"
+            className="w-full p-3 rounded bg-gray-100"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          {/* Email */}
           <input
             type="email"
             placeholder="Email"
@@ -52,6 +75,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
+          {/* Password */}
           <input
             type="password"
             placeholder="Password"
@@ -62,14 +86,14 @@ const Login = () => {
           />
 
           <button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-lg">
-            Login
+            Register
           </button>
         </form>
 
         <p className="text-sm text-center mt-3">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-indigo-600">
-            Register
+          Already have an account?{" "}
+          <Link to="/" className="text-indigo-600">
+            Login
           </Link>
         </p>
       </div>
@@ -77,4 +101,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
