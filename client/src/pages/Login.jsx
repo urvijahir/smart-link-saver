@@ -35,8 +35,10 @@ const Login = () => {
 
       // Redirect
       navigate("/dashboard");
-    } catch {
-      toast.error("Invalid credentials");
+    } catch (err) {
+      console.log(err);
+
+      toast.error(err.response?.data?.message || "Something went wrong");
     }
   };
 
