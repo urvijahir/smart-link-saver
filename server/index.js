@@ -9,12 +9,7 @@ connectDB();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://smart-link-saver.vercel.app",
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 app.use(express.json());
 

@@ -25,7 +25,7 @@ const Login = () => {
           password,
         },
       );
-
+      // Save token
       localStorage.setItem("token", res.data.token);
       toast.success("Login successful");
 
@@ -38,7 +38,20 @@ const Login = () => {
     } catch (err) {
       console.log(err);
 
-      toast.error(err.response?.data?.message || "Something went wrong");
+      // Wrong email/password
+      if (err.response && err.response.status === 401) {
+        toast.error("Invalid credentials");
+      }
+
+      // Server sleeping/network issue
+      else if (err.code === "ERR_NETWORK") {
+        toast.error("Server waking up... Please wait");
+      }
+
+      // Other errors
+      else {
+        toast.error(err.response?.data?.message || "Something went wrong");
+      }
     }
   };
 
