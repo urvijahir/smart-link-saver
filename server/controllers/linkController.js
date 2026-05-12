@@ -78,7 +78,7 @@ const updateLink = async (req, res) => {
   }
 
   const updatedLink = await Link.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
+    returnDocument: "after",
   });
 
   res.json(updatedLink);
